@@ -162,7 +162,7 @@ StartButton.MouseButton1Click:Connect(function()
                     
                     if remote then
                         remote:FireServer(charName, false)
-                        task.wait(0.2)
+                        task.wait(0.4)
                         remote:FireServer("character")
                     end
                 end)
@@ -171,7 +171,7 @@ StartButton.MouseButton1Click:Connect(function()
                 local humanoid = character:WaitForChild("Humanoid", 10)
                 
                 if humanoid then
-                    task.wait(0.2)
+                    task.wait(0.5)
                     
                     if isFarming and humanoid.Parent and humanoid.Health > 0 then
                         humanoid.Health = 0
