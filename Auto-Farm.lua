@@ -25,6 +25,32 @@ MainFrame.Active = true
 MainFrame.Draggable = true
 MainFrame.Parent = ScreenGui
 
+if game.PlaceId ~= 6406231441 then
+    MainFrame.Size = UDim2.new(0, 380, 0, 70)
+    MainFrame.Position = UDim2.new(0.5, -190, 0.5, -35)
+
+    local ErrorLabel = Instance.new("TextLabel")
+    ErrorLabel.Size = UDim2.new(1, 0, 1, 0)
+    ErrorLabel.BackgroundTransparency = 1
+    ErrorLabel.Text = "The game does not support"
+    ErrorLabel.Font = Enum.Font.Arcade
+    ErrorLabel.TextColor3 = Color3.fromRGB(255, 0, 0)
+    ErrorLabel.TextSize = 25
+    ErrorLabel.TextWrapped = true
+    ErrorLabel.Parent = MainFrame
+    
+    task.wait(3)
+    local tweenService = game:GetService("TweenService")
+    local slideDown = tweenService:Create(MainFrame, TweenInfo.new(1, Enum.EasingStyle.Sine, Enum.EasingDirection.In), {Position = UDim2.new(0.5, -190, 1.5, 0)})
+    slideDown:Play()
+    slideDown.Completed:Wait()
+    
+    if ScreenGui then
+        ScreenGui:Destroy()
+    end
+    return
+end
+
 local TitleLabel = Instance.new("TextLabel")
 TitleLabel.Size = UDim2.new(1, 0, 0, 30)
 TitleLabel.BackgroundTransparency = 1
@@ -154,7 +180,7 @@ StartButton.MouseButton1Click:Connect(function()
             local currentResets = 0
             
             while isFarming and currentResets < targetAmount do
-                StatusLabel.Text = string.format("FARMING... [%d/%d]", currentResets, targetAmount)
+                StatusLabel.Text = string.format("FARMING...[%d/%d]", currentResets, targetAmount)
                 StatusLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
                 
                 pcall(function()
