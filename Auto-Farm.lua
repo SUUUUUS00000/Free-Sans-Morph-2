@@ -26,8 +26,9 @@ MainFrame.Draggable = true
 MainFrame.Parent = ScreenGui
 
 if game.PlaceId ~= 6406231441 then
+    MainFrame.Draggable = false
     MainFrame.Size = UDim2.new(0, 380, 0, 70)
-    MainFrame.Position = UDim2.new(0.5, -190, 0.5, -35)
+    MainFrame.Position = UDim2.new(0.5, -190, 1.5, 0)
 
     local ErrorLabel = Instance.new("TextLabel")
     ErrorLabel.Size = UDim2.new(1, 0, 1, 0)
@@ -39,8 +40,14 @@ if game.PlaceId ~= 6406231441 then
     ErrorLabel.TextWrapped = true
     ErrorLabel.Parent = MainFrame
     
-    task.wait(3)
     local tweenService = game:GetService("TweenService")
+    
+    local slideUp = tweenService:Create(MainFrame, TweenInfo.new(1, Enum.EasingStyle.Sine, Enum.EasingDirection.Out), {Position = UDim2.new(0.5, -190, 0.5, -35)})
+    slideUp:Play()
+    slideUp.Completed:Wait()
+    
+    task.wait(3)
+    
     local slideDown = tweenService:Create(MainFrame, TweenInfo.new(1, Enum.EasingStyle.Sine, Enum.EasingDirection.In), {Position = UDim2.new(0.5, -190, 1.5, 0)})
     slideDown:Play()
     slideDown.Completed:Wait()
@@ -153,7 +160,9 @@ local isFarming = false
 
 CloseButton.MouseButton1Click:Connect(function()
     isFarming = false
-    ScreenGui:Destroy()
+    if ScreenGui then
+        ScreenGui:Destroy()
+    end
 end)
 
 StartButton.MouseButton1Click:Connect(function()
@@ -220,15 +229,17 @@ StartButton.MouseButton1Click:Connect(function()
             end
             
             isFarming = false
-            StartButton.Text = "START FARM"
-            StartButton.TextColor3 = Color3.fromRGB(255, 255, 255)
-            
-            if currentResets >= targetAmount then
-                StatusLabel.Text = "FINISHED!"
-                StatusLabel.TextColor3 = Color3.fromRGB(0, 255, 0)
-            else
-                StatusLabel.Text = "STOPPED"
-                StatusLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+            if ScreenGui and ScreenGui.Parent then
+                StartButton.Text = "START FARM"
+                StartButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+                
+                if currentResets >= targetAmount then
+                    StatusLabel.Text = "FINISHED!"
+                    StatusLabel.TextColor3 = Color3.fromRGB(0, 255, 0)
+                else
+                    StatusLabel.Text = "STOPPED"
+                    StatusLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+                end
             end
         end)
     else
